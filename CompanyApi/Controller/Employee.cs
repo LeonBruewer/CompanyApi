@@ -8,12 +8,12 @@ namespace CompanyApi.Controller
 {
     public class Employee : Microsoft.AspNetCore.Mvc.Controller
     {
+        Repository.Employee repo = new Repository.Employee();
+
         [HttpGet("/Employee")]
         public JsonResult GetEmployee()
         {
-            return new JsonResult(new List<object>(){
-                new {id=1, name="name"}
-            });
+            return new JsonResult(repo.GetModelList());
         }
     }
 }
