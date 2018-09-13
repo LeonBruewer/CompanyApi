@@ -23,9 +23,9 @@ namespace CompanyApi.Repository
             {
                 Model.Department model = new Model.Department()
                 {
-                    DepartmentName = row[1].ToString(),
-                    Manager = row[2].ToString(),
-                    Company = row[3].ToString()
+                    DepartmentName = row[0].ToString(),
+                    Manager = row[1].ToString(),
+                    Company = row[2].ToString()
                 };
 
                 result.Add(model);

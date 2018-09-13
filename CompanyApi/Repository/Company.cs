@@ -23,10 +23,10 @@ namespace CompanyApi.Repository
             {
                 Model.Company model = new Model.Company()
                 {
-                    CompanyName = row[1].ToString(),
-                    PostalCode = (int)row[2],
-                    City = row[3].ToString(),
-                    Street = row[4].ToString()
+                    CompanyName = row[0].ToString(),
+                    PostalCode = (int)row[1],
+                    City = row[2].ToString(),
+                    Street = row[3].ToString()
                 };
 
                 result.Add(model);

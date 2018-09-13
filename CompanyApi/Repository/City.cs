@@ -23,8 +23,8 @@ namespace CompanyApi.Repository
             {
                 Model.City model = new Model.City()
                 {
-                    PostalCode = (int)row[1],
-                    CityName = row[2].ToString()
+                    PostalCode = (int)row[0],
+                    CityName = row[1].ToString()
                 };
 
                 result.Add(model);
