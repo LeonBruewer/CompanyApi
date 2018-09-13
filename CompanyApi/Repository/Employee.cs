@@ -13,31 +13,6 @@ namespace CompanyApi.Repository
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
         public List<Model.Employee> GetModelList()
         {
-            //List<Model.Employee> result = new List<Model.Employee>();
-
-            //SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM viEmployee", con);
-            //DataTable table = new DataTable();
-
-            //adapter.Fill(table);
-
-            //foreach (DataRow row in table.Rows)
-            //{
-            //    Model.Employee model = new Model.Employee()
-            //    {
-            //        FirstName = row[0].ToString(),
-            //        LastName = row[1].ToString(),
-            //        BirthDate = Convert.ToDateTime(row[2]),
-            //        Gender = row[3].ToString(),
-            //        PhoneNumber = row[4].ToString(),
-            //        City = row[5].ToString(),
-            //        Street = row[6].ToString()
-            //    };
-
-            //    result.Add(model);
-            //}
-
-            //return result;
-
             return con.Query<Model.Employee>("SELECT * FROM viEmployee").ToList();
         }
     }
