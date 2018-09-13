@@ -13,27 +13,14 @@ namespace CompanyApi.Repository
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
         public List<Model.City> GetModelList()
         {
-            //List<Model.City> result = new List<Model.City>();
-
-            //SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM viCity", con);
-            //DataTable table = new DataTable();
-
-            //adapter.Fill(table);
-
-            //foreach (DataRow row in table.Rows)
-            //{
-            //    Model.City model = new Model.City()
-            //    {
-            //        PostalCode = (int)row[0],
-            //        CityName = row[1].ToString()
-            //    };
-
-            //    result.Add(model);
-            //}
-
-            //return result;
-
             return con.Query<Model.City>("SELECT * FROM viCity").ToList();
+        }
+
+        public List<Model.City> GetById(int PostalCode)
+        {
+            var param = new DynamicParameters();
+            param.Add("@PostalCode", PostalCode);
+            return con.Query<Model.City>("SELECT * FROM viCity WHERE PostalCode = @PostalCode", param).ToList();
         }
     }
 }
