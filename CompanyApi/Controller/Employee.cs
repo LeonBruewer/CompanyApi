@@ -11,10 +11,18 @@ namespace CompanyApi.Controller
         private Repository.Employee repo = new Repository.Employee();
 
         [Route("api/[Controller]")]
-        [HttpGet()]
-        public IActionResult Get()
+        [HttpGet("{id}")]
+        public IActionResult Get(int Id)
         {
-            var retval = repo.GetModelList();
+            List<Model.Employee> retval;
+            if (Id > 0)
+            {
+                retval = repo.GetById(Id);
+            }
+            else
+            {
+                retval = repo.GetModelList();
+            }
 
             return Ok(retval);
         }
