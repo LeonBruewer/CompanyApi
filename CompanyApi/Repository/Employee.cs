@@ -15,5 +15,12 @@ namespace CompanyApi.Repository
         {
             return con.Query<Model.Employee>("SELECT * FROM viEmployee").ToList();
         }
+
+        public List<Model.Employee> GetById(int Id)
+        {
+            var param = new DynamicParameters();
+            param.Add("@Id", Id);
+            return con.Query<Model.Employee>("SELECT * FROM viEmployee WHERE Id = @Id", param).ToList();
+        }
     }
 }

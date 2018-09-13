@@ -15,5 +15,12 @@ namespace CompanyApi.Repository
         {
             return con.Query<Model.Department>("SELECT * FROM viDepartment").ToList();
         }
+
+        public List<Model.Department> GetById(int Id)
+        {
+            var param = new DynamicParameters();
+            param.Add("@Id", Id);
+            return con.Query<Model.Department>("SELECT * FROM viDepartment WHERE Id = @Id", param).ToList();
+        }
     }
 }

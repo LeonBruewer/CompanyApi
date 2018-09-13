@@ -15,5 +15,12 @@ namespace CompanyApi.Repository
         {
             return con.Query<Model.City>("SELECT * FROM viCity").ToList();
         }
+
+        public List<Model.City> GetById(int PostalCode)
+        {
+            var param = new DynamicParameters();
+            param.Add("@PostalCode", PostalCode);
+            return con.Query<Model.City>("SELECT * FROM viCity WHERE PostalCode = @PostalCode", param).ToList();
+        }
     }
 }

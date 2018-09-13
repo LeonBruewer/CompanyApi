@@ -15,5 +15,12 @@ namespace CompanyApi.Repository
         {
             return con.Query<Model.Company>("SELECT * FROM viCompany").ToList();
         }
+
+        public List<Model.Company> GetById(int Id)
+        {
+            var param = new DynamicParameters();
+            param.Add("@Id", Id);
+            return con.Query<Model.Company>("SELECT * FROM viCompany WHERE Id = @Id", param).ToList();
+        }
     }
 }
