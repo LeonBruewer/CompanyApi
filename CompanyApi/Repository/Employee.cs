@@ -13,14 +13,37 @@ namespace CompanyApi.Repository
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
         public List<Model.Employee> GetModelList()
         {
-            return con.Query<Model.Employee>("SELECT * FROM viEmployee").ToList();
+            string query = @"SELECT Id,
+                                    FirstName,
+                                    LastName,
+                                    BirthDate,
+                                    Gender,
+                                    PhoneNumber,
+                                    City,
+                                    Street
+                            FROM
+                                    viEmployee";
+
+            return con.Query<Model.Employee>(query).ToList();
         }
 
         public List<Model.Employee> GetById(int Id)
         {
+            string query = @"SELECT Id,
+                                    FirstName,
+                                    LastName,
+                                    BirthDate,
+                                    Gender,
+                                    PhoneNumber,
+                                    City,
+                                    Street
+                            FROM
+                                    viEmployee
+                            WHERE Id = @Id";
+
             var param = new DynamicParameters();
             param.Add("@Id", Id);
-            return con.Query<Model.Employee>("SELECT * FROM viEmployee WHERE Id = @Id", param).ToList();
+            return con.Query<Model.Employee>(query, param).ToList();
         }
     }
 }
