@@ -8,7 +8,8 @@ namespace CompanyApi.Model
     public class Department
     {
         public string DepartmentName { get; set; }
-        public string Manager { get; set; }
-        public string Company { get; set; }
+        public string ManagerFirstName { get; set; }
+        public string ManagerLastName { get; set; }
+        public string CompanyName { get; set; }
     }
 }

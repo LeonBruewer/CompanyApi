@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
+using Dapper;
 
 namespace CompanyApi.Repository
 {
@@ -12,27 +13,29 @@ namespace CompanyApi.Repository
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
         public List<Model.Company> GetModelList()
         {
-            List<Model.Company> result = new List<Model.Company>();
+            //List<Model.Company> result = new List<Model.Company>();
 
-            SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM viCompany", con);
-            DataTable table = new DataTable();
+            //SqlDataAdapter adapter = new SqlDataAdapter("SELECT * FROM viCompany", con);
+            //DataTable table = new DataTable();
 
-            adapter.Fill(table);
+            //adapter.Fill(table);
 
-            foreach (DataRow row in table.Rows)
-            {
-                Model.Company model = new Model.Company()
-                {
-                    CompanyName = row[0].ToString(),
-                    PostalCode = (int)row[1],
-                    City = row[2].ToString(),
-                    Street = row[3].ToString()
-                };
+            //foreach (DataRow row in table.Rows)
+            //{
+            //    Model.Company model = new Model.Company()
+            //    {
+            //        CompanyName = row[0].ToString(),
+            //        PostalCode = (int)row[1],
+            //        City = row[2].ToString(),
+            //        Street = row[3].ToString()
+            //    };
 
-                result.Add(model);
-            }
+            //    result.Add(model);
+            //}
 
-            return result;
+            //return result;
+
+            return con.Query<Model.Company>("SELECT * FROM viCompany").ToList();
         }
     }
 }
