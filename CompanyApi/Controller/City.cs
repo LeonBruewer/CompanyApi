@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyApi.Controller
 {
-    public class Employee : Microsoft.AspNetCore.Mvc.Controller
+    public class City : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Repository.Employee repo = new Repository.Employee();
+        private Repository.City repo = new Repository.City();
 
         [Route("api/[Controller]")]
         [HttpGet()]
