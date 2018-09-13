@@ -8,6 +8,6 @@ namespace CompanyApi.Model
     public class City
     {
         public int PostalCode { get; set; }
-        public string City { get; set; }
+        public string CityName { get; set; }
     }
 }
