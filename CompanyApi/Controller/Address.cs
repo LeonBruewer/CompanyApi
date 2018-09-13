@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace CompanyApi.Controller
 {
@@ -10,10 +11,22 @@ namespace CompanyApi.Controller
     {
         private Repository.Address repo = new Repository.Address();
         [Route("api/[Controller]")]
-        [HttpGet()]
-        public IActionResult Get()
+        [HttpGet("{id}")]
+        public IActionResult Get(int Id)
         {
-            var retval = repo.GetModelList();
+            List<Model.Address> retval;
+
+            if (Id > 0)
+            {
+                retval = repo.GetById(Id);
+            }
+            else
+            {
+                retval = repo.GetModelList();
+            }
+
+            if (retval.Count == 0)
+                return StatusCode(StatusCodes.Status204NoContent);
 
             return Ok(retval);
         }
