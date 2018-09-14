@@ -7,5 +7,10 @@ namespace CompanyApi.Model.enums
 {
     public enum UpdateResultType
     {
+        OK,
+        SQLERROR,
+        NOTFOUND,
+        INVALIDARGUMENT,
+        ERROR
     }
 }

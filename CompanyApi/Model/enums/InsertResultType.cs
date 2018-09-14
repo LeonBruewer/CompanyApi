@@ -7,6 +7,10 @@ namespace CompanyApi.Model.enums
 {
     public enum InsertResultType
     {
-
+        OK,
+        SQLERROR,
+        EXISTINGPRIMARYKEY,
+        INVALIDARGUMENT,
+        ERROR
     }
 }
