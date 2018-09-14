@@ -41,11 +41,17 @@ namespace CompanyApi.Controller
 
 
         [HttpPost()]
-        public IActionResult AddOrUpdate([FromBody] Model.Address obj)
+        public IActionResult Add([FromBody] Model.Address obj)
         {
-            return Ok(obj.PostalCode);
+            Model.Address newObj = repo.Add(obj);
+            return Ok(newObj);
         }
 
-        
+        [HttpPut()]
+        public IActionResult Update([FromBody] Model.Address obj)
+        {
+            Model.Address newObj = repo.Update(obj);
+            return Ok(newObj);
+        }
     }
 }
