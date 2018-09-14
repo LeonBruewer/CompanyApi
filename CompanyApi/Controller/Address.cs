@@ -41,9 +41,9 @@ namespace CompanyApi.Controller
 
 
         [HttpPost()]
-        public IActionResult AddOrUpdate(Model.Address obj)
+        public IActionResult AddOrUpdate([FromBody] Model.Address obj)
         {
-            return Ok(obj);
+            return Ok(obj.PostalCode);
         }
 
         
