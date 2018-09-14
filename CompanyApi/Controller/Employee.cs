@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace CompanyApi.Controller
 {
-    [Route("api/[Controller]")]
+    [Route("api/Employee")]
     public class Employee : Microsoft.AspNetCore.Mvc.Controller
     {
         private Repository.Employee _repo = Repository.Employee.GetInstance();

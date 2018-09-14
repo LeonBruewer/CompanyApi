@@ -10,7 +10,7 @@ namespace CompanyApi.Repository
 {
     public class Address
     {
-        SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
+        SqlConnection con = new SqlConnection("a");
 
         private static Address _Instance;
 
