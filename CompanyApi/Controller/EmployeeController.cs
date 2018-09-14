@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Http;
 namespace CompanyApi.Controller
 {
     [Route("api/Employee")]
-    public class Employee : Microsoft.AspNetCore.Mvc.Controller
+    public class EmployeeController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Repository.Employee _repo = Repository.Employee.GetInstance();
+        private Repository.EmployeeRepo _repo = Repository.EmployeeRepo.GetInstance();
 
         [HttpGet()]
         public IActionResult Get()

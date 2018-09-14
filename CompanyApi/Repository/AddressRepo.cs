@@ -8,21 +8,21 @@ using Dapper;
 
 namespace CompanyApi.Repository
 {
-    public class Address
+    public class AddressRepo
     {
         SqlConnection con = new SqlConnection("a");
 
-        private static Address _Instance;
+        private static AddressRepo _Instance;
 
-        public static Address GetInstatnce()
+        public static AddressRepo GetInstatnce()
         {
             if (_Instance == null)
-                _Instance = new Address();
+                _Instance = new AddressRepo();
 
             return _Instance;
         }
 
-        private Address()
+        private AddressRepo()
         {
 
         }

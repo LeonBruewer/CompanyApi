@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Http;
 namespace CompanyApi.Controller
 {
     [Route("api/Address")]
-    public class Address : Microsoft.AspNetCore.Mvc.Controller
+    public class AddressController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Repository.Address _repo = Repository.Address.GetInstatnce();
+        private Repository.AddressRepo _repo = Repository.AddressRepo.GetInstatnce();
 
         [HttpGet()]
         public IActionResult Get()
@@ -52,19 +52,14 @@ namespace CompanyApi.Controller
                 {
                     case Model.enums.InsertResultType.OK:
                         return StatusCode(StatusCodes.Status201Created);
-                        break;
                     case Model.enums.InsertResultType.SQLERROR:
                         return StatusCode(StatusCodes.Status500InternalServerError);
-                        break;
                     case Model.enums.InsertResultType.EXISTINGPRIMARYKEY:
                         return StatusCode(StatusCodes.Status409Conflict);
-                        break;
                     case Model.enums.InsertResultType.INVALIDARGUMENT:
                         return StatusCode(StatusCodes.Status406NotAcceptable);
-                        break;
                     case Model.enums.InsertResultType.ERROR:
                         return StatusCode(StatusCodes.Status503ServiceUnavailable);
-                        break;
                     default:
                         break;
                 }

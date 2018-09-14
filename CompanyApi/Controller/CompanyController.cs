@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 namespace CompanyApi.Controller
 {
     [Route("api/Company")]
-    public class Company : Microsoft.AspNetCore.Mvc.Controller
+    public class CompanyController : Microsoft.AspNetCore.Mvc.Controller
     {
         private Repository.CompanyRepo _repo = Repository.CompanyRepo.GetInstance();
 
