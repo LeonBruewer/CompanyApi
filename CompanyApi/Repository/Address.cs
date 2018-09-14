@@ -11,6 +11,22 @@ namespace CompanyApi.Repository
     public class Address
     {
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
+
+        private static Address _Address;
+
+        public static Address GetInstatnce()
+        {
+            if (_Address == null)
+                _Address = new Address();
+
+            return _Address;
+        }
+
+        private Address()
+        {
+
+        }
+
         public List<Model.Address> GetModelList()
         {
             string query = @"SELECT Id,
