@@ -39,16 +39,16 @@ namespace CompanyApi.Controller
         }
         
         [HttpPost()]
-        public IActionResult Add([FromBody] Model.Address obj)
+        public IActionResult Add([FromBody] Model.dto.AddressDto obj)
         {
-            Model.Address newObj = repo.Add(obj);
+            Model.dto.AddressDto newObj = repo.Add(obj);
             return Ok(newObj);
         }
 
         [HttpPut()]
-        public IActionResult Update([FromBody] Model.Address obj)
+        public IActionResult Update([FromBody] Model.dto.AddressDto obj)
         {
-            Model.Address newObj = repo.Update(obj);
+            Model.dto.AddressDto newObj = repo.Update(obj);
             return Ok(newObj);
         }
     }
