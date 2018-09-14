@@ -10,7 +10,6 @@ namespace CompanyApi.Controller
     [Route("api/Address")]
     public class Address : Microsoft.AspNetCore.Mvc.Controller
     {
-        
         private Repository.Address repo = new Repository.Address();
 
         [HttpGet()]
@@ -38,14 +37,19 @@ namespace CompanyApi.Controller
 
             return Ok(retval);
         }
-
-
+        
         [HttpPost()]
-        public IActionResult AddOrUpdate(Model.Address obj)
+        public IActionResult Add([FromBody] Model.dto.AddressDto obj)
         {
-            return Ok(obj);
+            Model.dto.AddressDto newObj = repo.Add(obj);
+            return Ok(newObj);
         }
 
-        
+        [HttpPut()]
+        public IActionResult Update([FromBody] Model.dto.AddressDto obj)
+        {
+            Model.dto.AddressDto newObj = repo.Update(obj);
+            return Ok(newObj);
+        }
     }
 }

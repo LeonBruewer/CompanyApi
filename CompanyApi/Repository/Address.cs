@@ -37,25 +37,29 @@ namespace CompanyApi.Repository
             return con.Query<Model.Address>(query, param).ToList();
         }
 
-        
-        public Model.Address AddOrUpdate(string[] Param)
+        public Model.dto.AddressDto Add(Model.dto.AddressDto model)
         {
-            string query = "dbo.spAddOrUpdateCity";
+            return _AddOrUpdate(model);
+        }
+
+        public Model.dto.AddressDto Update(Model.dto.AddressDto model)
+        {
+            return _AddOrUpdate(model, model.Id);
+        }
+
+        private Model.dto.AddressDto _AddOrUpdate(Model.dto.AddressDto model, object Id = null)
+        {
+            string query = "dbo.spAddOrUpdateAddress";
             DynamicParameters param = new DynamicParameters();
 
-            for (int i = 0; i < Param.Length; i++)
-            {
-                if (Param[i] == "")
-                    Param[i] = null;
-            }
+            int PostalCode = model.PostalCode;
+            string Street = model.Street;
 
-            string PostalCode = Param[0];
-            string City = Param[1];
-            
+            param.Add("@Id", Id);
             param.Add("@PostalCode", PostalCode);
-            param.Add("@City", City);
+            param.Add("@Street", Street);
 
-            var retvalue = con.QueryFirstOrDefault<Model.Address>(query, param, null, null, CommandType.StoredProcedure);
+            var retvalue = con.QueryFirstOrDefault<Model.dto.AddressDto>(query, param, null, null, CommandType.StoredProcedure);
 
             return retvalue;
         }

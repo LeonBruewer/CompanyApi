@@ -45,5 +45,34 @@ namespace CompanyApi.Repository
             param.Add("@Id", Id);
             return con.Query<Model.Employee>(query, param).ToList();
         }
+
+        public Model.Employee Add(Model.dto.EmployeeDto model)
+        {
+            return _AddOrUpdate(model);
+        }
+
+        public Model.Employee Update(Model.dto.EmployeeDto model)
+        {
+            return _AddOrUpdate(model, model.Id);
+        }
+
+        private Model.Employee _AddOrUpdate(Model.dto.EmployeeDto model, object Id = null)
+        {
+            string query = "dbo.spAddOrUpdateAddress";
+            DynamicParameters param = new DynamicParameters();
+
+            param.Add("@Id", Id);
+            param.Add("@FirstName", model.FirstName);
+            param.Add("@LastName", model.LastName);
+            param.Add("@BirthDate", model.BirthDate);
+            param.Add("@Gender", model.Gender);
+            param.Add("@PhoneNumber", model.PhoneNumber);
+            param.Add("@DepartmentId", model.DepartmentId);
+            param.Add("@AddressId", model.AddressId);
+
+            var retvalue = con.QueryFirstOrDefault<Model.Employee>(query, param, null, null, CommandType.StoredProcedure);
+
+            return retvalue;
+        }
     }
 }
