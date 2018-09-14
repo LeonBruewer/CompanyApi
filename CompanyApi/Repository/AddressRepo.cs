@@ -10,7 +10,7 @@ namespace CompanyApi.Repository
 {
     public class AddressRepo
     {
-        SqlConnection con = new SqlConnection("a");
+        SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
 
         private static AddressRepo _Instance;
 
