@@ -7,18 +7,18 @@ using Microsoft.AspNetCore.Http;
 
 namespace CompanyApi.Controller
 {
-    [Route("api/Address")]
-    public class Address : Microsoft.AspNetCore.Mvc.Controller
+    [Route("api/Department")]
+    public class DepartmentController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Repository.Address _repo = Repository.Address.GetInstatnce();
+        private Repository.DepartmentRepo _repo = Repository.DepartmentRepo.GetInstance();
 
         [HttpGet()]
         public IActionResult Get()
         {
-            List<Model.Address> retval;
+            List<Model.Department> retval;
 
             retval = _repo.GetModelList();
-            
+
             if (retval.Count == 0)
                 return StatusCode(StatusCodes.Status204NoContent);
 
@@ -28,7 +28,7 @@ namespace CompanyApi.Controller
         [HttpGet("{id}")]
         public IActionResult Get(int Id)
         {
-            List<Model.Address> retval;
+            List<Model.Department> retval;
 
             retval = _repo.GetById(Id);
 
@@ -37,18 +37,18 @@ namespace CompanyApi.Controller
 
             return Ok(retval);
         }
-        
+
         [HttpPost()]
-        public IActionResult Add([FromBody] Model.dto.AddressDto obj)
+        public IActionResult Add([FromBody] Model.dto.DepartmentDto obj)
         {
-            Model.dto.AddressDto newObj = _repo.Add(obj);
+            Model.Department newObj = _repo.Add(obj);
             return Ok(newObj);
         }
 
         [HttpPut()]
-        public IActionResult Update([FromBody] Model.dto.AddressDto obj)
+        public IActionResult Update([FromBody] Model.dto.DepartmentDto obj)
         {
-            Model.dto.AddressDto newObj = _repo.Update(obj);
+            Model.Department newObj = _repo.Update(obj);
             return Ok(newObj);
         }
     }

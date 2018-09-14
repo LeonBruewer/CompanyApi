@@ -7,15 +7,15 @@ using Microsoft.AspNetCore.Http;
 
 namespace CompanyApi.Controller
 {
-    [Route("api/[Controller]")]
-    public class Employee : Microsoft.AspNetCore.Mvc.Controller
+    [Route("api/City")]
+    public class CityController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Repository.Employee _repo = Repository.Employee.GetInstance();
+        private Repository.CityRepo _repo = Repository.CityRepo.GetInstance();
 
         [HttpGet()]
         public IActionResult Get()
         {
-            List<Model.Employee> retval;
+            List<Model.City> retval;
 
             retval = _repo.GetModelList();
 
@@ -25,12 +25,12 @@ namespace CompanyApi.Controller
             return Ok(retval);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult Get(int Id)
+        [HttpGet("{postalcode}")]
+        public IActionResult Get(int PostalCode)
         {
-            List<Model.Employee> retval;
+            List<Model.City> retval;
 
-            retval = _repo.GetById(Id);
+            retval = _repo.GetById(PostalCode);
 
             if (retval.Count == 0)
                 return StatusCode(StatusCodes.Status204NoContent);
@@ -39,16 +39,16 @@ namespace CompanyApi.Controller
         }
 
         [HttpPost()]
-        public IActionResult Add([FromBody] Model.dto.EmployeeDto obj)
+        public IActionResult Add([FromBody] Model.City obj)
         {
-            Model.Employee newObj = _repo.Add(obj);
+            Model.City newObj = _repo.Add(obj);
             return Ok(newObj);
         }
 
         [HttpPut()]
-        public IActionResult Update([FromBody] Model.dto.EmployeeDto obj)
+        public IActionResult Update([FromBody] Model.City obj)
         {
-            Model.Employee newObj = _repo.Update(obj);
+            Model.City newObj = _repo.Update(obj);
             return Ok(newObj);
         }
     }

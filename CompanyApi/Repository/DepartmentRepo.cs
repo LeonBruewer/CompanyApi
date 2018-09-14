@@ -8,21 +8,21 @@ using Dapper;
 
 namespace CompanyApi.Repository
 {
-    public class Department
+    public class DepartmentRepo
     {
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
 
-        private static Department _Instance;
+        private static DepartmentRepo _Instance;
 
-        public static Department GetInstance()
+        public static DepartmentRepo GetInstance()
         {
             if (_Instance == null)
-                _Instance = new Department();
+                _Instance = new DepartmentRepo();
 
             return _Instance;
         }
 
-        private Department()
+        private DepartmentRepo()
         {
 
         }

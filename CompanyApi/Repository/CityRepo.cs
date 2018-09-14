@@ -8,23 +8,23 @@ using Dapper;
 
 namespace CompanyApi.Repository
 {
-    public class City
+    public class CityRepo
     {
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
 
-        private static City _Instance;
+        private static CityRepo _Instance;
 
-        public static City GetInstance()
+        public static CityRepo GetInstance()
         {
             if (_Instance == null)
             {
-                _Instance = new City();
+                _Instance = new CityRepo();
             }
 
             return _Instance;
         }
 
-        private City()
+        private CityRepo()
         {
 
         }
