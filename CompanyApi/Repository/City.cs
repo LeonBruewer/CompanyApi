@@ -12,16 +12,16 @@ namespace CompanyApi.Repository
     {
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
 
-        private static City _City;
+        private static City _Instance;
 
         public static City GetInstance()
         {
-            if (_City == null)
+            if (_Instance == null)
             {
-                _City = new City();
+                _Instance = new City();
             }
 
-            return _City;
+            return _Instance;
         }
 
         private City()

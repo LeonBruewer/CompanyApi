@@ -12,14 +12,14 @@ namespace CompanyApi.Repository
     {
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
 
-        private static Address _Address;
+        private static Address _Instance;
 
         public static Address GetInstatnce()
         {
-            if (_Address == null)
-                _Address = new Address();
+            if (_Instance == null)
+                _Instance = new Address();
 
-            return _Address;
+            return _Instance;
         }
 
         private Address()
