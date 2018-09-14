@@ -11,6 +11,22 @@ namespace CompanyApi.Repository
     public class Employee
     {
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
+
+        private static Employee _Instance;
+
+        public static Employee GetInstance()
+        {
+            if (_Instance == null)
+                _Instance = new Employee();
+
+            return _Instance;
+        }
+
+        private Employee()
+        {
+
+        }
+
         public List<Model.Employee> GetModelList()
         {
             string query = @"SELECT Id,
