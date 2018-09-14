@@ -7,5 +7,8 @@ namespace CompanyApi.Model.dto
 {
     public class AddressDto
     {
+        public int Id { get; set; }
+        public int PostalCode { get; set; }
+        public string Street { get; set; }
     }
 }
