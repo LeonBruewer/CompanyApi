@@ -10,7 +10,6 @@ namespace CompanyApi.Controller
     [Route("api/Address")]
     public class Address : Microsoft.AspNetCore.Mvc.Controller
     {
-        
         private Repository.Address repo = new Repository.Address();
 
         [HttpGet()]
@@ -38,8 +37,7 @@ namespace CompanyApi.Controller
 
             return Ok(retval);
         }
-
-
+        
         [HttpPost()]
         public IActionResult Add([FromBody] Model.Address obj)
         {
