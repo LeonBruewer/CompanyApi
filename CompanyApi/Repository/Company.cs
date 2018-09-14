@@ -62,6 +62,5 @@ namespace CompanyApi.Repository
 
             return retvalue;
         }
-
     }
 }
