@@ -10,7 +10,7 @@ namespace CompanyApi.Controller
     [Route("api/City")]
     public class City : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Repository.City _repo = Repository.City.GetInstance();
+        private Repository.CityRepo _repo = Repository.CityRepo.GetInstance();
 
         [HttpGet()]
         public IActionResult Get()

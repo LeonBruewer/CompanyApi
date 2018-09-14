@@ -7,18 +7,18 @@ using Microsoft.AspNetCore.Http;
 
 namespace CompanyApi.Controller
 {
-    [Route("api/Department")]
-    public class Department : Microsoft.AspNetCore.Mvc.Controller
+    [Route("api/Company")]
+    public class Company : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Repository.Department _repo = Repository.Department.GetInstance();
+        private Repository.CompanyRepo _repo = Repository.CompanyRepo.GetInstance();
 
         [HttpGet()]
         public IActionResult Get()
         {
-            List<Model.Department> retval;
+            List<Model.Company> retval;
 
             retval = _repo.GetModelList();
-
+            
             if (retval.Count == 0)
                 return StatusCode(StatusCodes.Status204NoContent);
 
@@ -28,7 +28,7 @@ namespace CompanyApi.Controller
         [HttpGet("{id}")]
         public IActionResult Get(int Id)
         {
-            List<Model.Department> retval;
+            List<Model.Company> retval;
 
             retval = _repo.GetById(Id);
 
@@ -39,16 +39,16 @@ namespace CompanyApi.Controller
         }
 
         [HttpPost()]
-        public IActionResult Add([FromBody] Model.dto.DepartmentDto obj)
+        public IActionResult Add([FromBody] Model.dto.CompanyDto obj)
         {
-            Model.Department newObj = _repo.Add(obj);
+            Model.Company newObj = _repo.Add(obj);
             return Ok(newObj);
         }
 
         [HttpPut()]
-        public IActionResult Update([FromBody] Model.dto.DepartmentDto obj)
+        public IActionResult Update([FromBody] Model.dto.CompanyDto obj)
         {
-            Model.Department newObj = _repo.Update(obj);
+            Model.Company newObj = _repo.Update(obj);
             return Ok(newObj);
         }
     }
