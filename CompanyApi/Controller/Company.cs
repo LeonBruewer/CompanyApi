@@ -10,14 +10,14 @@ namespace CompanyApi.Controller
     [Route("api/Company")]
     public class Company : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Repository.Company repo = new Repository.Company();
+        private Repository.Company _repo = Repository.Company.GetInstance();
 
         [HttpGet()]
         public IActionResult Get()
         {
             List<Model.Company> retval;
 
-            retval = repo.GetModelList();
+            retval = _repo.GetModelList();
             
             if (retval.Count == 0)
                 return StatusCode(StatusCodes.Status204NoContent);
@@ -30,7 +30,7 @@ namespace CompanyApi.Controller
         {
             List<Model.Company> retval;
 
-            retval = repo.GetById(Id);
+            retval = _repo.GetById(Id);
 
             if (retval.Count == 0)
                 return StatusCode(StatusCodes.Status204NoContent);
@@ -41,14 +41,14 @@ namespace CompanyApi.Controller
         [HttpPost()]
         public IActionResult Add([FromBody] Model.dto.CompanyDto obj)
         {
-            Model.Company newObj = repo.Add(obj);
+            Model.Company newObj = _repo.Add(obj);
             return Ok(newObj);
         }
 
         [HttpPut()]
         public IActionResult Update([FromBody] Model.dto.CompanyDto obj)
         {
-            Model.Company newObj = repo.Update(obj);
+            Model.Company newObj = _repo.Update(obj);
             return Ok(newObj);
         }
     }

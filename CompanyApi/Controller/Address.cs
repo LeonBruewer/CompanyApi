@@ -10,14 +10,14 @@ namespace CompanyApi.Controller
     [Route("api/Address")]
     public class Address : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Repository.Address repo = new Repository.Address();
+        private Repository.Address _repo = Repository.Address.GetInstatnce();
 
         [HttpGet()]
         public IActionResult Get()
         {
             List<Model.Address> retval;
 
-            retval = repo.GetModelList();
+            retval = _repo.GetModelList();
             
             if (retval.Count == 0)
                 return StatusCode(StatusCodes.Status204NoContent);
@@ -30,7 +30,7 @@ namespace CompanyApi.Controller
         {
             List<Model.Address> retval;
 
-            retval = repo.GetById(Id);
+            retval = _repo.GetById(Id);
 
             if (retval.Count == 0)
                 return StatusCode(StatusCodes.Status204NoContent);
@@ -41,14 +41,14 @@ namespace CompanyApi.Controller
         [HttpPost()]
         public IActionResult Add([FromBody] Model.dto.AddressDto obj)
         {
-            Model.dto.AddressDto newObj = repo.Add(obj);
+            Model.dto.AddressDto newObj = _repo.Add(obj);
             return Ok(newObj);
         }
 
         [HttpPut()]
         public IActionResult Update([FromBody] Model.dto.AddressDto obj)
         {
-            Model.dto.AddressDto newObj = repo.Update(obj);
+            Model.dto.AddressDto newObj = _repo.Update(obj);
             return Ok(newObj);
         }
     }

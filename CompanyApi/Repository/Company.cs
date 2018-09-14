@@ -11,6 +11,22 @@ namespace CompanyApi.Repository
     public class Company
     {
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
+
+        private static Company _Instance;
+
+        public static Company GetInstance()
+        {
+            if (_Instance == null)
+                _Instance = new Company();
+
+            return _Instance;
+        }
+
+        private Company()
+        {
+
+        }
+
         public List<Model.Company> GetModelList()
         {
             string query = @"SELECT Id,

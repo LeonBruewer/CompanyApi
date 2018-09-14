@@ -10,14 +10,14 @@ namespace CompanyApi.Controller
     [Route("api/City")]
     public class City : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Repository.City repo = new Repository.City();
+        private Repository.City _repo = Repository.City.GetInstance();
 
         [HttpGet()]
         public IActionResult Get()
         {
             List<Model.City> retval;
 
-            retval = repo.GetModelList();
+            retval = _repo.GetModelList();
 
             if (retval.Count == 0)
                 return StatusCode(StatusCodes.Status204NoContent);
@@ -30,7 +30,7 @@ namespace CompanyApi.Controller
         {
             List<Model.City> retval;
 
-            retval = repo.GetById(PostalCode);
+            retval = _repo.GetById(PostalCode);
 
             if (retval.Count == 0)
                 return StatusCode(StatusCodes.Status204NoContent);
@@ -41,14 +41,14 @@ namespace CompanyApi.Controller
         [HttpPost()]
         public IActionResult Add([FromBody] Model.City obj)
         {
-            Model.City newObj = repo.Add(obj);
+            Model.City newObj = _repo.Add(obj);
             return Ok(newObj);
         }
 
         [HttpPut()]
         public IActionResult Update([FromBody] Model.City obj)
         {
-            Model.City newObj = repo.Update(obj);
+            Model.City newObj = _repo.Update(obj);
             return Ok(newObj);
         }
     }

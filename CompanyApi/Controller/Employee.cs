@@ -10,14 +10,14 @@ namespace CompanyApi.Controller
     [Route("api/[Controller]")]
     public class Employee : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Repository.Employee repo = new Repository.Employee();
+        private Repository.Employee _repo = Repository.Employee.GetInstance();
 
         [HttpGet()]
         public IActionResult Get()
         {
             List<Model.Employee> retval;
 
-            retval = repo.GetModelList();
+            retval = _repo.GetModelList();
 
             if (retval.Count == 0)
                 return StatusCode(StatusCodes.Status204NoContent);
@@ -30,7 +30,7 @@ namespace CompanyApi.Controller
         {
             List<Model.Employee> retval;
 
-            retval = repo.GetById(Id);
+            retval = _repo.GetById(Id);
 
             if (retval.Count == 0)
                 return StatusCode(StatusCodes.Status204NoContent);
@@ -41,14 +41,14 @@ namespace CompanyApi.Controller
         [HttpPost()]
         public IActionResult Add([FromBody] Model.dto.EmployeeDto obj)
         {
-            Model.Employee newObj = repo.Add(obj);
+            Model.Employee newObj = _repo.Add(obj);
             return Ok(newObj);
         }
 
         [HttpPut()]
         public IActionResult Update([FromBody] Model.dto.EmployeeDto obj)
         {
-            Model.Employee newObj = repo.Update(obj);
+            Model.Employee newObj = _repo.Update(obj);
             return Ok(newObj);
         }
     }

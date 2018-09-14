@@ -11,6 +11,24 @@ namespace CompanyApi.Repository
     public class City
     {
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
+
+        private static City _Instance;
+
+        public static City GetInstance()
+        {
+            if (_Instance == null)
+            {
+                _Instance = new City();
+            }
+
+            return _Instance;
+        }
+
+        private City()
+        {
+
+        }
+
         public List<Model.City> GetModelList()
         {
             string query = @"SELECT PostalCode,

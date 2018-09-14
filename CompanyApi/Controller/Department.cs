@@ -10,14 +10,14 @@ namespace CompanyApi.Controller
     [Route("api/Department")]
     public class Department : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Repository.Department repo = new Repository.Department();
+        private Repository.Department _repo = Repository.Department.GetInstance();
 
         [HttpGet()]
         public IActionResult Get()
         {
             List<Model.Department> retval;
 
-            retval = repo.GetModelList();
+            retval = _repo.GetModelList();
 
             if (retval.Count == 0)
                 return StatusCode(StatusCodes.Status204NoContent);
@@ -30,7 +30,7 @@ namespace CompanyApi.Controller
         {
             List<Model.Department> retval;
 
-            retval = repo.GetById(Id);
+            retval = _repo.GetById(Id);
 
             if (retval.Count == 0)
                 return StatusCode(StatusCodes.Status204NoContent);
@@ -41,14 +41,14 @@ namespace CompanyApi.Controller
         [HttpPost()]
         public IActionResult Add([FromBody] Model.dto.DepartmentDto obj)
         {
-            Model.Department newObj = repo.Add(obj);
+            Model.Department newObj = _repo.Add(obj);
             return Ok(newObj);
         }
 
         [HttpPut()]
         public IActionResult Update([FromBody] Model.dto.DepartmentDto obj)
         {
-            Model.Department newObj = repo.Update(obj);
+            Model.Department newObj = _repo.Update(obj);
             return Ok(newObj);
         }
     }
