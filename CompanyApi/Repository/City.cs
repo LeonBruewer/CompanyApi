@@ -33,5 +33,28 @@ namespace CompanyApi.Repository
             param.Add("@PostalCode", PostalCode);
             return con.Query<Model.City>(query, param).ToList();
         }
+
+        public Model.City Add(Model.City model)
+        {
+            return _AddOrUpdate(model);
+        }
+
+        public Model.City Update(Model.City model)
+        {
+            return _AddOrUpdate(model, model.PostalCode);
+        }
+
+        private Model.City _AddOrUpdate(Model.City model, object PostalCode = null)
+        {
+            string query = "dbo.spAddOrUpdateAddress";
+            DynamicParameters param = new DynamicParameters();
+
+            param.Add("@PostalCode", PostalCode);
+            param.Add("@City", model.CityName);
+
+            var retvalue = con.QueryFirstOrDefault<Model.City>(query, param, null, null, CommandType.StoredProcedure);
+
+            return retvalue;
+        }
     }
 }
