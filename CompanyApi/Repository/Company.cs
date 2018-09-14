@@ -39,5 +39,29 @@ namespace CompanyApi.Repository
             param.Add("@Id", Id);
             return con.Query<Model.Company>(query, param).ToList();
         }
+        public Model.Company Add(Model.dto.CompanyDto model)
+        {
+            return _AddOrUpdate(model);
+        }
+
+        public Model.Company Update(Model.dto.CompanyDto model)
+        {
+            return _AddOrUpdate(model, model.Id);
+        }
+
+        private Model.Company _AddOrUpdate(Model.dto.CompanyDto model, object Id = null)
+        {
+            string query = "dbo.spAddOrUpdateAddress";
+            DynamicParameters param = new DynamicParameters();
+
+            param.Add("@Id", Id);
+            param.Add("@CompanyName", model.CompanyName);
+            param.Add("@AddressId", model.AddressId);
+
+            var retvalue = con.QueryFirstOrDefault<Model.Company>(query, param, null, null, CommandType.StoredProcedure);
+
+            return retvalue;
+        }
+
     }
 }
