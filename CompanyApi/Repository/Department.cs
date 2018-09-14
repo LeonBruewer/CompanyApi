@@ -11,6 +11,22 @@ namespace CompanyApi.Repository
     public class Department
     {
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
+
+        private static Department _Instance;
+
+        public static Department GetInstance()
+        {
+            if (_Instance == null)
+                _Instance = new Department();
+
+            return _Instance;
+        }
+
+        private Department()
+        {
+
+        }
+
         public List<Model.Department> GetModelList()
         {
             string query = @"SELECT Id,
