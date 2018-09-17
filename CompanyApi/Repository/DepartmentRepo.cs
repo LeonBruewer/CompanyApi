@@ -13,7 +13,12 @@ namespace CompanyApi.Repository
 {
     public class DepartmentRepo : IRepository<Department, DepartmentDto>
     {
-        SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
+        IDbConnection con;
+
+        public DepartmentRepo(IDbContext dbContext)
+        {
+            con = dbContext.GetConnection();
+        }
 
         public List<Department> GetModelList()
         {
