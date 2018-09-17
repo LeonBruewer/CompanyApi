@@ -13,7 +13,12 @@ namespace CompanyApi.Repository
 {
     public class CompanyRepo : IRepository<Company, CompanyDto>
     {
-        SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
+        IDbConnection con;
+
+        public CompanyRepo(IDbContext dbContext)
+        {
+            con = dbContext.GetConnection();
+        }
 
         public List<Company> GetModelList()
         {
