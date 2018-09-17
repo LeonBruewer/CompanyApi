@@ -20,7 +20,6 @@ namespace CompanyApi.Helper
 
         public IDbConnection GetConnection()
         {
-
             var con = new SqlConnection(_settings.Connection);
 
             return con;
