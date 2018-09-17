@@ -4,18 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using CompanyApi.Interfaces;
+using CompanyApi.Model;
+using CompanyApi.Model.dto;
 
 namespace CompanyApi.Controller
 {
     [Route("api/Employee")]
     public class EmployeeController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Repository.EmployeeRepo _repo = Repository.EmployeeRepo.GetInstance();
+        private IRepository<Employee, EmployeeDto> _repo;
+
+        public EmployeeController(IRepository<Employee, EmployeeDto> repo)
+        {
+            _repo = repo;
+        }
 
         [HttpGet()]
         public IActionResult Get()
         {
-            List<Model.Employee> retval;
+            List<Employee> retval;
 
             retval = _repo.GetModelList();
 
@@ -28,7 +36,7 @@ namespace CompanyApi.Controller
         [HttpGet("{id}")]
         public IActionResult Get(int Id)
         {
-            List<Model.Employee> retval;
+            List<Employee> retval;
 
             retval = _repo.GetById(Id);
 
@@ -39,16 +47,16 @@ namespace CompanyApi.Controller
         }
 
         [HttpPost()]
-        public IActionResult Add([FromBody] Model.dto.EmployeeDto obj)
+        public IActionResult Add([FromBody] EmployeeDto obj)
         {
-            Model.Employee newObj = _repo.Add(obj);
+            EmployeeDto newObj = _repo.Add(obj);
             return Ok(newObj);
         }
 
         [HttpPut()]
-        public IActionResult Update([FromBody] Model.dto.EmployeeDto obj)
+        public IActionResult Update([FromBody] EmployeeDto obj)
         {
-            Model.Employee newObj = _repo.Update(obj);
+            EmployeeDto newObj = _repo.Update(obj);
             return Ok(newObj);
         }
     }

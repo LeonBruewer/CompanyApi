@@ -4,18 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using CompanyApi.Interfaces;
+using CompanyApi.Model;
+using CompanyApi.Model.dto;
 
 namespace CompanyApi.Controller
 {
     [Route("api/Department")]
     public class DepartmentController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Repository.DepartmentRepo _repo = Repository.DepartmentRepo.GetInstance();
+        private IRepository<Department, DepartmentDto> _repo;
+
+        public DepartmentController(IRepository<Department, DepartmentDto> repo)
+        {
+            _repo = repo;
+        }
 
         [HttpGet()]
         public IActionResult Get()
         {
-            List<Model.Department> retval;
+            List<Department> retval;
 
             retval = _repo.GetModelList();
 
@@ -28,7 +36,7 @@ namespace CompanyApi.Controller
         [HttpGet("{id}")]
         public IActionResult Get(int Id)
         {
-            List<Model.Department> retval;
+            List<Department> retval;
 
             retval = _repo.GetById(Id);
 
@@ -39,16 +47,16 @@ namespace CompanyApi.Controller
         }
 
         [HttpPost()]
-        public IActionResult Add([FromBody] Model.dto.DepartmentDto obj)
+        public IActionResult Add([FromBody] DepartmentDto obj)
         {
-            Model.Department newObj = _repo.Add(obj);
+            DepartmentDto newObj = _repo.Add(obj);
             return Ok(newObj);
         }
 
         [HttpPut()]
-        public IActionResult Update([FromBody] Model.dto.DepartmentDto obj)
+        public IActionResult Update([FromBody] DepartmentDto obj)
         {
-            Model.Department newObj = _repo.Update(obj);
+            DepartmentDto newObj = _repo.Update(obj);
             return Ok(newObj);
         }
     }

@@ -5,41 +5,27 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using Dapper;
+using CompanyApi.Interfaces;
+using CompanyApi.Model;
+using CompanyApi.Model.dto;
 
 namespace CompanyApi.Repository
 {
-    public class CityRepo
+    public class CityRepo : IRepository<City, CityDto>
     {
-        SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
+        SqlConnection con = new SqlConnection(Properties.Resources.tappqaConString);
 
-        private static CityRepo _Instance;
-
-        public static CityRepo GetInstance()
-        {
-            if (_Instance == null)
-            {
-                _Instance = new CityRepo();
-            }
-
-            return _Instance;
-        }
-
-        private CityRepo()
-        {
-
-        }
-
-        public List<Model.City> GetModelList()
+        public List<City> GetModelList()
         {
             string query = @"SELECT PostalCode,
                                     CityName
                             FROM
                                     viCity";
 
-            return con.Query<Model.City>(query).ToList();
+            return con.Query<City>(query).ToList();
         }
 
-        public List<Model.City> GetById(int PostalCode)
+        public List<City> GetById(int PostalCode)
         {
             string query = @"SELECT PostalCode,
                                     CityName
@@ -49,20 +35,20 @@ namespace CompanyApi.Repository
 
             var param = new DynamicParameters();
             param.Add("@PostalCode", PostalCode);
-            return con.Query<Model.City>(query, param).ToList();
+            return con.Query<City>(query, param).ToList();
         }
 
-        public Model.City Add(Model.City model)
+        public CityDto Add(CityDto model)
         {
             return _AddOrUpdate(model);
         }
 
-        public Model.City Update(Model.City model)
+        public CityDto Update(CityDto model)
         {
             return _AddOrUpdate(model, model.PostalCode);
         }
 
-        private Model.City _AddOrUpdate(Model.City model, object PostalCode = null)
+        private CityDto _AddOrUpdate(CityDto model, object PostalCode = null)
         {
             string query = "dbo.spAddOrUpdateAddress";
             DynamicParameters param = new DynamicParameters();
@@ -70,7 +56,7 @@ namespace CompanyApi.Repository
             param.Add("@PostalCode", PostalCode);
             param.Add("@City", model.CityName);
 
-            var retvalue = con.QueryFirstOrDefault<Model.City>(query, param, null, null, CommandType.StoredProcedure);
+            var retvalue = con.QueryFirstOrDefault<CityDto>(query, param, null, null, CommandType.StoredProcedure);
 
             return retvalue;
         }
