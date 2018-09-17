@@ -11,24 +11,9 @@ using CompanyApi.Model.dto;
 
 namespace CompanyApi.Repository
 {
-    public class CompanyRepo
+    public class CompanyRepo : IRepository<Company, CompanyDto>
     {
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
-
-        private static CompanyRepo _Instance;
-
-        public static CompanyRepo GetInstance()
-        {
-            if (_Instance == null)
-                _Instance = new CompanyRepo();
-
-            return _Instance;
-        }
-
-        private CompanyRepo()
-        {
-
-        }
 
         public List<Company> GetModelList()
         {
@@ -58,17 +43,17 @@ namespace CompanyApi.Repository
             param.Add("@Id", Id);
             return con.Query<Company>(query, param).ToList();
         }
-        public Company Add(CompanyDto model)
+        public CompanyDto Add(CompanyDto model)
         {
             return _AddOrUpdate(model);
         }
 
-        public Company Update(CompanyDto model)
+        public CompanyDto Update(CompanyDto model)
         {
             return _AddOrUpdate(model, model.Id);
         }
 
-        private Company _AddOrUpdate(CompanyDto model, object Id = null)
+        private CompanyDto _AddOrUpdate(CompanyDto model, object Id = null)
         {
             string query = "dbo.spAddOrUpdateAddress";
             DynamicParameters param = new DynamicParameters();
@@ -77,7 +62,7 @@ namespace CompanyApi.Repository
             param.Add("@CompanyName", model.CompanyName);
             param.Add("@AddressId", model.AddressId);
 
-            var retvalue = con.QueryFirstOrDefault<Company>(query, param, null, null, CommandType.StoredProcedure);
+            var retvalue = con.QueryFirstOrDefault<CompanyDto>(query, param, null, null, CommandType.StoredProcedure);
 
             return retvalue;
         }
