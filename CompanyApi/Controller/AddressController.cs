@@ -4,18 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using CompanyApi.Model;
+using CompanyApi.Model.dto;
+using CompanyApi.Interfaces;
 
 namespace CompanyApi.Controller
 {
     [Route("api/Address")]
     public class AddressController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Repository.AddressRepo _repo = Repository.AddressRepo.GetInstatnce();
+        IRepository<Address, AddressDto> _repo;
+
+        public AddressController(IRepository<Address, AddressDto> repo)
+        {
+            _repo = repo;
+        }
 
         [HttpGet()]
         public IActionResult Get()
         {
-            List<Model.Address> retval;
+            List<Address> retval;
             
             retval = _repo.GetModelList();
             
