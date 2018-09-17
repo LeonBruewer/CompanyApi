@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using Dapper;
+using CompanyApi.Interfaces;
+using CompanyApi.Model;
+using CompanyApi.Model.dto;
 
 namespace CompanyApi.Repository
 {
@@ -27,7 +30,7 @@ namespace CompanyApi.Repository
 
         }
 
-        public List<Model.Department> GetModelList()
+        public List<Department> GetModelList()
         {
             string query = @"SELECT Id,
                                     DepartmentName,
@@ -37,10 +40,10 @@ namespace CompanyApi.Repository
                             FROM
                                     viDepartment";
 
-            return con.Query<Model.Department>(query).ToList();
+            return con.Query<Department>(query).ToList();
         }
 
-        public List<Model.Department> GetById(int Id)
+        public List<Department> GetById(int Id)
         {
             string query = @"SELECT Id,
                                     DepartmentName,
@@ -53,20 +56,20 @@ namespace CompanyApi.Repository
 
             var param = new DynamicParameters();
             param.Add("@Id", Id);
-            return con.Query<Model.Department>(query, param).ToList();
+            return con.Query<Department>(query, param).ToList();
         }
 
-        public Model.Department Add(Model.dto.DepartmentDto model)
+        public Department Add(DepartmentDto model)
         {
             return _AddOrUpdate(model);
         }
 
-        public Model.Department Update(Model.dto.DepartmentDto model)
+        public Department Update(DepartmentDto model)
         {
             return _AddOrUpdate(model, model.Id);
         }
 
-        private Model.Department _AddOrUpdate(Model.dto.DepartmentDto model, object Id = null)
+        private Department _AddOrUpdate(DepartmentDto model, object Id = null)
         {
             string query = "dbo.spAddOrUpdateAddress";
             DynamicParameters param = new DynamicParameters();
@@ -76,7 +79,7 @@ namespace CompanyApi.Repository
             param.Add("@CompanyId", model.CompanyId);
             param.Add("@ManagerId", model.ManagerId);
 
-            var retvalue = con.QueryFirstOrDefault<Model.Department>(query, param, null, null, CommandType.StoredProcedure);
+            var retvalue = con.QueryFirstOrDefault<Department>(query, param, null, null, CommandType.StoredProcedure);
 
             return retvalue;
         }

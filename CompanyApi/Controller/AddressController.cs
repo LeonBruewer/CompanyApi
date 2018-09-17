@@ -47,7 +47,7 @@ namespace CompanyApi.Controller
         }
         
         [HttpPost()]
-        public IActionResult Add([FromBody] Model.dto.AddressDto obj)
+        public IActionResult Add([FromBody] AddressDto obj)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace CompanyApi.Controller
         }
 
         [HttpPut()]
-        public IActionResult Update([FromBody] Model.dto.AddressDto obj)
+        public IActionResult Update([FromBody] AddressDto obj)
         {
             Model.dto.AddressDto newObj = _repo.Update(obj);
             return Ok(newObj);

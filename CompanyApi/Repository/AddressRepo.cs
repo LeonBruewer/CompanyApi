@@ -8,6 +8,7 @@ using Dapper;
 using CompanyApi.Interfaces;
 using CompanyApi.Model;
 using CompanyApi.Model.dto;
+
 namespace CompanyApi.Repository
 {
     public class AddressRepo : IRepository<Address, AddressDto>
