@@ -11,24 +11,9 @@ using CompanyApi.Model.dto;
 
 namespace CompanyApi.Repository
 {
-    public class EmployeeRepo
+    public class EmployeeRepo : IRepository<Employee, EmployeeDto>
     {
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
-
-        private static EmployeeRepo _Instance;
-
-        public static EmployeeRepo GetInstance()
-        {
-            if (_Instance == null)
-                _Instance = new EmployeeRepo();
-
-            return _Instance;
-        }
-
-        private EmployeeRepo()
-        {
-
-        }
 
         public List<Employee> GetModelList()
         {
@@ -65,17 +50,17 @@ namespace CompanyApi.Repository
             return con.Query<Employee>(query, param).ToList();
         }
 
-        public Employee Add(EmployeeDto model)
+        public EmployeeDto Add(EmployeeDto model)
         {
             return _AddOrUpdate(model);
         }
 
-        public Employee Update(EmployeeDto model)
+        public EmployeeDto Update(EmployeeDto model)
         {
             return _AddOrUpdate(model, model.Id);
         }
 
-        private Employee _AddOrUpdate(EmployeeDto model, object Id = null)
+        private EmployeeDto _AddOrUpdate(EmployeeDto model, object Id = null)
         {
             string query = "dbo.spAddOrUpdateAddress";
             DynamicParameters param = new DynamicParameters();
@@ -89,7 +74,7 @@ namespace CompanyApi.Repository
             param.Add("@DepartmentId", model.DepartmentId);
             param.Add("@AddressId", model.AddressId);
 
-            var retvalue = con.QueryFirstOrDefault<Employee>(query, param, null, null, CommandType.StoredProcedure);
+            var retvalue = con.QueryFirstOrDefault<EmployeeDto>(query, param, null, null, CommandType.StoredProcedure);
 
             return retvalue;
         }
