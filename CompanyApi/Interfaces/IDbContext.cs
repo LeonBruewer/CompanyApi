@@ -6,7 +6,7 @@ using System.Data;
 
 namespace CompanyApi.Interfaces
 {
-    interface IDbContext
+    public interface IDbContext
     {
         IDbConnection GetConnection();
     }
