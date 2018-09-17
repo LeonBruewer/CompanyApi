@@ -24,6 +24,7 @@ namespace CompanyApi
             services.AddScoped<IRepository<Address, AddressDto>, AddressRepo>();
             services.AddScoped<IRepository<City, CityDto>, CityRepo>();
             services.AddScoped<IRepository<Company, CompanyDto>, CompanyRepo>();
+            services.AddScoped<IRepository<Department, DepartmentDto>, DepartmentRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -11,24 +11,9 @@ using CompanyApi.Model.dto;
 
 namespace CompanyApi.Repository
 {
-    public class DepartmentRepo
+    public class DepartmentRepo : IRepository<Department, DepartmentDto>
     {
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
-
-        private static DepartmentRepo _Instance;
-
-        public static DepartmentRepo GetInstance()
-        {
-            if (_Instance == null)
-                _Instance = new DepartmentRepo();
-
-            return _Instance;
-        }
-
-        private DepartmentRepo()
-        {
-
-        }
 
         public List<Department> GetModelList()
         {
@@ -59,17 +44,17 @@ namespace CompanyApi.Repository
             return con.Query<Department>(query, param).ToList();
         }
 
-        public Department Add(DepartmentDto model)
+        public DepartmentDto Add(DepartmentDto model)
         {
             return _AddOrUpdate(model);
         }
 
-        public Department Update(DepartmentDto model)
+        public DepartmentDto Update(DepartmentDto model)
         {
             return _AddOrUpdate(model, model.Id);
         }
 
-        private Department _AddOrUpdate(DepartmentDto model, object Id = null)
+        private DepartmentDto _AddOrUpdate(DepartmentDto model, object Id = null)
         {
             string query = "dbo.spAddOrUpdateAddress";
             DynamicParameters param = new DynamicParameters();
@@ -79,7 +64,7 @@ namespace CompanyApi.Repository
             param.Add("@CompanyId", model.CompanyId);
             param.Add("@ManagerId", model.ManagerId);
 
-            var retvalue = con.QueryFirstOrDefault<Department>(query, param, null, null, CommandType.StoredProcedure);
+            var retvalue = con.QueryFirstOrDefault<DepartmentDto>(query, param, null, null, CommandType.StoredProcedure);
 
             return retvalue;
         }
