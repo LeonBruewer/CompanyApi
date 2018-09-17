@@ -13,7 +13,12 @@ namespace CompanyApi.Repository
 {
     public class AddressRepo : IRepository<Address, AddressDto>
     {
-        SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
+        IDbConnection con;
+
+        public AddressRepo(IDbContext dbContext)
+        {
+            con = dbContext.GetConnection();
+        }
 
         public List<Address> GetModelList()
         {
