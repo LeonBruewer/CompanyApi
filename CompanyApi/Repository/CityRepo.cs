@@ -11,26 +11,9 @@ using CompanyApi.Model.dto;
 
 namespace CompanyApi.Repository
 {
-    public class CityRepo
+    public class CityRepo : IRepository<City, CityDto>
     {
         SqlConnection con = new SqlConnection(Properties.Resources.tappqaConString);
-
-        private static CityRepo _Instance;
-
-        public static CityRepo GetInstance()
-        {
-            if (_Instance == null)
-            {
-                _Instance = new CityRepo();
-            }
-
-            return _Instance;
-        }
-
-        private CityRepo()
-        {
-
-        }
 
         public List<City> GetModelList()
         {
@@ -55,17 +38,17 @@ namespace CompanyApi.Repository
             return con.Query<City>(query, param).ToList();
         }
 
-        public City Add(City model)
+        public CityDto Add(CityDto model)
         {
             return _AddOrUpdate(model);
         }
 
-        public City Update(City model)
+        public CityDto Update(CityDto model)
         {
             return _AddOrUpdate(model, model.PostalCode);
         }
 
-        private City _AddOrUpdate(City model, object PostalCode = null)
+        private CityDto _AddOrUpdate(CityDto model, object PostalCode = null)
         {
             string query = "dbo.spAddOrUpdateAddress";
             DynamicParameters param = new DynamicParameters();
@@ -73,7 +56,7 @@ namespace CompanyApi.Repository
             param.Add("@PostalCode", PostalCode);
             param.Add("@City", model.CityName);
 
-            var retvalue = con.QueryFirstOrDefault<City>(query, param, null, null, CommandType.StoredProcedure);
+            var retvalue = con.QueryFirstOrDefault<CityDto>(query, param, null, null, CommandType.StoredProcedure);
 
             return retvalue;
         }

@@ -4,18 +4,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using CompanyApi.Interfaces;
+using CompanyApi.Model;
+using CompanyApi.Model.dto;
+using CompanyApi.Repository;
 
 namespace CompanyApi.Controller
 {
     [Route("api/City")]
     public class CityController : Microsoft.AspNetCore.Mvc.Controller
     {
-        private Repository.CityRepo _repo = Repository.CityRepo.GetInstance();
+        IRepository<City, CityDto> _repo;
+
+        public CityController(IRepository<City, CityDto> repo)
+        {
+            _repo = repo;
+        }
 
         [HttpGet()]
         public IActionResult Get()
         {
-            List<Model.City> retval;
+            List<City> retval;
 
             retval = _repo.GetModelList();
 
@@ -28,7 +37,7 @@ namespace CompanyApi.Controller
         [HttpGet("{postalcode}")]
         public IActionResult Get(int PostalCode)
         {
-            List<Model.City> retval;
+            List<City> retval;
 
             retval = _repo.GetById(PostalCode);
 
@@ -39,16 +48,16 @@ namespace CompanyApi.Controller
         }
 
         [HttpPost()]
-        public IActionResult Add([FromBody] Model.City obj)
+        public IActionResult Add([FromBody] CityDto obj)
         {
-            Model.City newObj = _repo.Add(obj);
+            CityDto newObj = _repo.Add(obj);
             return Ok(newObj);
         }
 
         [HttpPut()]
-        public IActionResult Update([FromBody] Model.City obj)
+        public IActionResult Update([FromBody] CityDto obj)
         {
-            Model.City newObj = _repo.Update(obj);
+            CityDto newObj = _repo.Update(obj);
             return Ok(newObj);
         }
     }
