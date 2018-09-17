@@ -13,7 +13,12 @@ namespace CompanyApi.Repository
 {
     public class CityRepo : IRepository<City, CityDto>
     {
-        SqlConnection con = new SqlConnection(Properties.Resources.tappqaConString);
+        IDbConnection con;
+
+        public CityRepo(IDbContext dbContext)
+        {
+            con = dbContext.GetConnection();
+        }
 
         public List<City> GetModelList()
         {
