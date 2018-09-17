@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
+using CompanyApi.Interfaces;
+using CompanyApi.Repository;
+using CompanyApi.Model;
+using CompanyApi.Model.dto;
 
 namespace CompanyApi
 {
@@ -17,6 +21,11 @@ namespace CompanyApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddScoped<IRepository<Address, AddressDto>, AddressRepo>();
+            services.AddScoped<IRepository<City, CityDto>, CityRepo>();
+            services.AddScoped<IRepository<Company, CompanyDto>, CompanyRepo>();
+            services.AddScoped<IRepository<Department, DepartmentDto>, DepartmentRepo>();
+            services.AddScoped<IRepository<Employee, EmployeeDto>, EmployeeRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

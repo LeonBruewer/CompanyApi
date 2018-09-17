@@ -5,77 +5,64 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using Dapper;
+using CompanyApi.Interfaces;
+using CompanyApi.Model;
+using CompanyApi.Model.dto;
 
 namespace CompanyApi.Repository
 {
-    public class Address
+    public class CompanyRepo : IRepository<Company, CompanyDto>
     {
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
 
-        private static Address _Instance;
-
-        public static Address GetInstatnce()
-        {
-            if (_Instance == null)
-                _Instance = new Address();
-
-            return _Instance;
-        }
-
-        private Address()
-        {
-
-        }
-
-        public List<Model.Address> GetModelList()
+        public List<Company> GetModelList()
         {
             string query = @"SELECT Id,
-                                    PostalCode,
-                                    City,
-                                    Street
-                            FROM viAddress";
-
-            return con.Query<Model.Address>(query).ToList();
-        }
-
-        public List<Model.Address> GetById(int Id)
-        {
-            string query = @"SELECT Id,
+                                    CompanyName,
                                     PostalCode,
                                     City,
                                     Street
                             FROM
-                                    viAddress
+                                    viCompany";
+
+            return con.Query<Company>(query).ToList();
+        }
+
+        public List<Company> GetById(int Id)
+        {
+            string query = @"SELECT Id,
+                                    CompanyName,
+                                    PostalCode,
+                                    City,
+                                    Street
+                            FROM
+                                    viCompany
                             WHERE Id = @Id";
 
             var param = new DynamicParameters();
             param.Add("@Id", Id);
-            return con.Query<Model.Address>(query, param).ToList();
+            return con.Query<Company>(query, param).ToList();
         }
-
-        public Model.dto.AddressDto Add(Model.dto.AddressDto model)
+        public CompanyDto Add(CompanyDto model)
         {
             return _AddOrUpdate(model);
         }
 
-        public Model.dto.AddressDto Update(Model.dto.AddressDto model)
+        public CompanyDto Update(CompanyDto model)
         {
             return _AddOrUpdate(model, model.Id);
         }
 
-        private Model.dto.AddressDto _AddOrUpdate(Model.dto.AddressDto model, object Id = null)
+        private CompanyDto _AddOrUpdate(CompanyDto model, object Id = null)
         {
             string query = "dbo.spAddOrUpdateAddress";
             DynamicParameters param = new DynamicParameters();
 
-            int PostalCode = model.PostalCode;
-            string Street = model.Street;
-
             param.Add("@Id", Id);
-            param.Add("@PostalCode", PostalCode);
-            param.Add("@Street", Street);
+            param.Add("@CompanyName", model.CompanyName);
+            param.Add("@AddressId", model.AddressId);
 
-            var retvalue = con.QueryFirstOrDefault<Model.dto.AddressDto>(query, param, null, null, CommandType.StoredProcedure);
+            var retvalue = con.QueryFirstOrDefault<CompanyDto>(query, param, null, null, CommandType.StoredProcedure);
 
             return retvalue;
         }

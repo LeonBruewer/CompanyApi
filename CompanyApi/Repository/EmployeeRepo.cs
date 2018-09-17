@@ -5,29 +5,17 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using Dapper;
+using CompanyApi.Interfaces;
+using CompanyApi.Model;
+using CompanyApi.Model.dto;
 
 namespace CompanyApi.Repository
 {
-    public class Employee
+    public class EmployeeRepo : IRepository<Employee, EmployeeDto>
     {
         SqlConnection con = new SqlConnection(global::CompanyApi.Properties.Resources.tappqaConString);
 
-        private static Employee _Instance;
-
-        public static Employee GetInstance()
-        {
-            if (_Instance == null)
-                _Instance = new Employee();
-
-            return _Instance;
-        }
-
-        private Employee()
-        {
-
-        }
-
-        public List<Model.Employee> GetModelList()
+        public List<Employee> GetModelList()
         {
             string query = @"SELECT Id,
                                     FirstName,
@@ -40,10 +28,10 @@ namespace CompanyApi.Repository
                             FROM
                                     viEmployee";
 
-            return con.Query<Model.Employee>(query).ToList();
+            return con.Query<Employee>(query).ToList();
         }
 
-        public List<Model.Employee> GetById(int Id)
+        public List<Employee> GetById(int Id)
         {
             string query = @"SELECT Id,
                                     FirstName,
@@ -59,20 +47,20 @@ namespace CompanyApi.Repository
 
             var param = new DynamicParameters();
             param.Add("@Id", Id);
-            return con.Query<Model.Employee>(query, param).ToList();
+            return con.Query<Employee>(query, param).ToList();
         }
 
-        public Model.Employee Add(Model.dto.EmployeeDto model)
+        public EmployeeDto Add(EmployeeDto model)
         {
             return _AddOrUpdate(model);
         }
 
-        public Model.Employee Update(Model.dto.EmployeeDto model)
+        public EmployeeDto Update(EmployeeDto model)
         {
             return _AddOrUpdate(model, model.Id);
         }
 
-        private Model.Employee _AddOrUpdate(Model.dto.EmployeeDto model, object Id = null)
+        private EmployeeDto _AddOrUpdate(EmployeeDto model, object Id = null)
         {
             string query = "dbo.spAddOrUpdateAddress";
             DynamicParameters param = new DynamicParameters();
@@ -86,7 +74,7 @@ namespace CompanyApi.Repository
             param.Add("@DepartmentId", model.DepartmentId);
             param.Add("@AddressId", model.AddressId);
 
-            var retvalue = con.QueryFirstOrDefault<Model.Employee>(query, param, null, null, CommandType.StoredProcedure);
+            var retvalue = con.QueryFirstOrDefault<EmployeeDto>(query, param, null, null, CommandType.StoredProcedure);
 
             return retvalue;
         }
