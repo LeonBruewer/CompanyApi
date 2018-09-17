@@ -13,7 +13,6 @@ namespace CompanyApi.Controller
     [Route("api/Company")]
     public class CompanyController : Microsoft.AspNetCore.Mvc.Controller
     {
-        //private Repository.CompanyRepo _repo = Repository.CompanyRepo.GetInstance();
         private IRepository<Company, CompanyDto> _repo;
 
         public CompanyController(IRepository<Company, CompanyDto> repo)
