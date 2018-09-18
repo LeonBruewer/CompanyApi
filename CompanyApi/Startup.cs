@@ -33,6 +33,7 @@ namespace CompanyApi
 
             services.AddSingleton<IDbContext, Helper.DbContext>();
             services.AddSingleton<IAuthorization, Helper.Authorization>();
+
             services.AddScoped<IRepository<Address, AddressDto>, AddressRepo>();
             services.AddScoped<IRepository<City, CityDto>, CityRepo>();
             services.AddScoped<IRepository<Company, CompanyDto>, CompanyRepo>();

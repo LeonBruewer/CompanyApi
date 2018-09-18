@@ -26,7 +26,7 @@ namespace CompanyApi.Controller
         [HttpGet()]
         public IActionResult Get([FromHeader] string Authorization)
         {
-            if (_auth.IsValid(Authorization) == true)
+            if (_auth.AccessTokenIsValid(Authorization) == true)
             {
                 List<Address> retval;
 
