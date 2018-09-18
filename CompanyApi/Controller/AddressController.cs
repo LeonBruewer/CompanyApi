@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using CompanyApi.Model;
 using CompanyApi.Model.dto;
 using CompanyApi.Interfaces;
+using System.Text;
 
 namespace CompanyApi.Controller
 {
@@ -14,23 +15,30 @@ namespace CompanyApi.Controller
     public class AddressController : Microsoft.AspNetCore.Mvc.Controller
     {
         IRepository<Address, AddressDto> _repo;
+        IAuthorization _auth;
 
-        public AddressController(IRepository<Address, AddressDto> repo)
+        public AddressController(IRepository<Address, AddressDto> repo, IAuthorization auth)
         {
             _repo = repo;
+            _auth = auth;
         }
 
         [HttpGet()]
-        public IActionResult Get()
+        public IActionResult Get([FromHeader] string Authorization)
         {
-            List<Address> retval;
-            
-            retval = _repo.GetModelList();
-            
-            if (retval.Count == 0)
-                return StatusCode(StatusCodes.Status204NoContent);
+            if (_auth.IsValid(Authorization) == true)
+            {
+                List<Address> retval;
 
-            return Ok(retval);
+                retval = _repo.GetModelList();
+
+                if (retval.Count == 0)
+                    return StatusCode(StatusCodes.Status204NoContent);
+
+                return Ok(retval);
+            }
+            else
+                return StatusCode(StatusCodes.Status401Unauthorized);
         }
 
         [HttpGet("{id}")]
