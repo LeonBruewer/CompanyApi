@@ -36,7 +36,7 @@ namespace CompanyApi.Controller
         [HttpGet("{id}")]
         public IActionResult Get(int Id)
         {
-            List<Model.Address> retval;
+            List<Address> retval;
 
             retval = _repo.GetById(Id);
 
@@ -51,7 +51,7 @@ namespace CompanyApi.Controller
         {
             try
             {
-                Model.dto.AddressDto newObj = _repo.Add(obj);
+                AddressDto newObj = _repo.Add(obj);
                 return Ok(newObj);
             }
             catch (Helper.RepositoryException<Model.enums.InsertResultType> ex)
@@ -78,7 +78,7 @@ namespace CompanyApi.Controller
         [HttpPut()]
         public IActionResult Update([FromBody] AddressDto obj)
         {
-            Model.dto.AddressDto newObj = _repo.Update(obj);
+            AddressDto newObj = _repo.Update(obj);
             return Ok(newObj);
         }
     }
