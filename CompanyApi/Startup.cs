@@ -32,11 +32,12 @@ namespace CompanyApi
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             
-
             services.Configure<DbSettings>(Config.GetSection("DbSettings"));
-
+            services.Configure<TappSecret>(Config.GetSection("TappSecret"));
+            
             services.AddSingleton<IDbContext, Helper.DbContext>();
             services.AddSingleton<IAuthorization, Helper.Authorization>();
+            services.AddSingleton<IMessenger, Helper.Messenger>();
 
             services.AddScoped<IRepository<Address, AddressDto>, AddressRepo>();
             services.AddScoped<IRepository<City, CityDto>, CityRepo>();

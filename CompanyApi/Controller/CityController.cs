@@ -22,11 +22,13 @@ namespace CompanyApi.Controller
     {
         private IRepository<City, CityDto> _repo;
         private IAuthorization _auth;
+        private IMessenger _msg;
 
-        public CityController(IRepository<City, CityDto> repo, IAuthorization auth)
+        public CityController(IRepository<City, CityDto> repo, IAuthorization auth, IMessenger msg)
         {
             _repo = repo;
             _auth = auth;
+            _msg = msg;
         }
 
         ////[Authorize(Roles = "1")]
@@ -68,14 +70,14 @@ namespace CompanyApi.Controller
         {
             var user = HttpContext.GetTokenPayload<Auth.Models.LocationUserTokenPayload>();
             var groups = HttpContext.GetUacGroups();
-
+            _msg.SendIntercom("Intercom message");
             List<City> retval;
             retval = _repo.GetModelList();
 
             if (retval.Count == 0)
                 return StatusCode(StatusCodes.Status204NoContent);
 
-            return Ok(retval);
+            return Ok(groups);
         }
 
         [Authorize(Roles = "1")]
