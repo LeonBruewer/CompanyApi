@@ -8,6 +8,7 @@ using CompanyApi.Model;
 using CompanyApi.Model.dto;
 using CompanyApi.Interfaces;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CompanyApi.Controller
 {
@@ -23,84 +24,68 @@ namespace CompanyApi.Controller
             _auth = auth;
         }
 
+        [Authorize(Roles = "1")]
         [HttpGet()]
         public IActionResult Get([FromHeader] string Authorization)
         {
-            if (_auth.AccessTokenIsValid(Authorization) == true)
-            {
-                List<Address> retval;
-                retval = _repo.GetModelList();
+            List<Address> retval;
+            retval = _repo.GetModelList();
 
-                if (retval.Count == 0)
-                    return StatusCode(StatusCodes.Status204NoContent);
+            if (retval.Count == 0)
+                return StatusCode(StatusCodes.Status204NoContent);
 
-                return Ok(retval);
-            }
-            else
-                return StatusCode(StatusCodes.Status401Unauthorized, "Error 401: No Authorization");
+            return Ok(retval);
         }
 
+        [Authorize(Roles = "1")]
         [HttpGet("{id}")]
         public IActionResult Get(int Id, [FromHeader] string Authorization)
         {
-            if (_auth.AccessTokenIsValid(Authorization) == true)
-            {
-                List<Address> retval;
-                retval = _repo.GetById(Id);
+            List<Address> retval;
+            retval = _repo.GetById(Id);
 
-                if (retval.Count == 0)
-                    return StatusCode(StatusCodes.Status204NoContent);
+            if (retval.Count == 0)
+                return StatusCode(StatusCodes.Status204NoContent);
 
-                return Ok(retval); 
-            }
-            else
-                return StatusCode(StatusCodes.Status401Unauthorized, "Error 401: No Authorion");
+            return Ok(retval);
         }
-        
+
+        [Authorize(Roles = "1")]
         [HttpPost()]
         public IActionResult Add([FromBody] AddressDto obj, [FromHeader] string Authorization)
         {
-            if (_auth.AccessTokenIsValid(Authorization) == true)
+            try
             {
-                try
-                {
-                    AddressDto newObj = _repo.Add(obj);
-                    return Ok(newObj);
-                }
-                catch (Helper.RepositoryException<Model.enums.InsertResultType> ex)
-                {
-                    switch (ex.Type)
-                    {
-                        case Model.enums.InsertResultType.OK:
-                            return StatusCode(StatusCodes.Status201Created);
-                        case Model.enums.InsertResultType.SQLERROR:
-                            return StatusCode(StatusCodes.Status500InternalServerError);
-                        case Model.enums.InsertResultType.EXISTINGPRIMARYKEY:
-                            return StatusCode(StatusCodes.Status409Conflict);
-                        case Model.enums.InsertResultType.INVALIDARGUMENT:
-                            return StatusCode(StatusCodes.Status406NotAcceptable);
-                        case Model.enums.InsertResultType.ERROR:
-                            return StatusCode(StatusCodes.Status503ServiceUnavailable);
-                        default:
-                            break;
-                    }
-                    throw;
-                } 
+                AddressDto newObj = _repo.Add(obj);
+                return Ok(newObj);
             }
-            else
-                return StatusCode(StatusCodes.Status401Unauthorized, "Error 401: No Authorion");
+            catch (Helper.RepositoryException<Model.enums.InsertResultType> ex)
+            {
+                switch (ex.Type)
+                {
+                    case Model.enums.InsertResultType.OK:
+                        return StatusCode(StatusCodes.Status201Created);
+                    case Model.enums.InsertResultType.SQLERROR:
+                        return StatusCode(StatusCodes.Status500InternalServerError);
+                    case Model.enums.InsertResultType.EXISTINGPRIMARYKEY:
+                        return StatusCode(StatusCodes.Status409Conflict);
+                    case Model.enums.InsertResultType.INVALIDARGUMENT:
+                        return StatusCode(StatusCodes.Status406NotAcceptable);
+                    case Model.enums.InsertResultType.ERROR:
+                        return StatusCode(StatusCodes.Status503ServiceUnavailable);
+                    default:
+                        break;
+                }
+                throw;
+            }
         }
 
+        [Authorize(Roles = "1")]
         [HttpPut()]
         public IActionResult Update([FromBody] AddressDto obj, [FromHeader] string Authorization)
         {
-            if (_auth.AccessTokenIsValid(Authorization) == true)
-            {
-                AddressDto newObj = _repo.Update(obj);
-                return Ok(newObj); 
-            }
-            else
-                return StatusCode(StatusCodes.Status401Unauthorized, "Error 401: No Authorion");
+            AddressDto newObj = _repo.Update(obj);
+            return Ok(newObj);
         }
     }
 }
