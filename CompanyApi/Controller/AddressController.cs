@@ -8,6 +8,7 @@ using CompanyApi.Model;
 using CompanyApi.Model.dto;
 using CompanyApi.Interfaces;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CompanyApi.Controller
 {
@@ -23,29 +24,24 @@ namespace CompanyApi.Controller
             _auth = auth;
         }
 
+        [Authorize(Roles = "1")]
         [HttpGet()]
         public IActionResult Get([FromHeader] string Authorization)
         {
-            if (_auth.AccessTokenIsValid(Authorization) == true)
-            {
-                List<Address> retval;
+            List<Address> retval;
+            retval = _repo.GetModelList();
 
-                retval = _repo.GetModelList();
+            if (retval.Count == 0)
+                return StatusCode(StatusCodes.Status204NoContent);
 
-                if (retval.Count == 0)
-                    return StatusCode(StatusCodes.Status204NoContent);
-
-                return Ok(retval);
-            }
-            else
-                return StatusCode(StatusCodes.Status401Unauthorized);
+            return Ok(retval);
         }
 
+        [Authorize(Roles = "1")]
         [HttpGet("{id}")]
-        public IActionResult Get(int Id)
+        public IActionResult Get(int Id, [FromHeader] string Authorization)
         {
             List<Address> retval;
-
             retval = _repo.GetById(Id);
 
             if (retval.Count == 0)
@@ -53,9 +49,10 @@ namespace CompanyApi.Controller
 
             return Ok(retval);
         }
-        
+
+        [Authorize(Roles = "1")]
         [HttpPost()]
-        public IActionResult Add([FromBody] AddressDto obj)
+        public IActionResult Add([FromBody] AddressDto obj, [FromHeader] string Authorization)
         {
             try
             {
@@ -83,8 +80,9 @@ namespace CompanyApi.Controller
             }
         }
 
+        [Authorize(Roles = "1")]
         [HttpPut()]
-        public IActionResult Update([FromBody] AddressDto obj)
+        public IActionResult Update([FromBody] AddressDto obj, [FromHeader] string Authorization)
         {
             AddressDto newObj = _repo.Update(obj);
             return Ok(newObj);
