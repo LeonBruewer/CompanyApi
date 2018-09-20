@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using CompanyApi.Interfaces;
 using CompanyApi.Model;
 using CompanyApi.Model.dto;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CompanyApi.Controller
 {
@@ -20,6 +21,7 @@ namespace CompanyApi.Controller
             _repo = repo;
         }
 
+        [Authorize(Roles = "1")]
         [HttpGet()]
         public IActionResult Get()
         {
@@ -33,6 +35,7 @@ namespace CompanyApi.Controller
             return Ok(retval);
         }
 
+        [Authorize(Roles = "1")]
         [HttpGet("{id}")]
         public IActionResult Get(int Id)
         {
@@ -46,6 +49,7 @@ namespace CompanyApi.Controller
             return Ok(retval);
         }
 
+        [Authorize(Roles = "1")]
         [HttpPost()]
         public IActionResult Add([FromBody] CompanyDto obj)
         {
@@ -53,6 +57,7 @@ namespace CompanyApi.Controller
             return Ok(newObj);
         }
 
+        [Authorize(Roles = "1")]
         [HttpPut()]
         public IActionResult Update([FromBody] CompanyDto obj)
         {
